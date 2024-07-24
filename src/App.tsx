@@ -57,42 +57,45 @@ function App() {
     localStorage.setItem(fontSizeCacheKey, newFontSize.toString());
   };
 
-  const restart = () => {};
+  const restart = () => {
+    location.reload();
+  };
 
   return (
-    <>
+    <div className="wrapper">
+      <div className="content">
+        <animated.div
+          ref={ref}
+          style={{
+            fontSize,
+            display: "flex",
+            width: "fit-content",
+            ...springs,
+          }}
+        >
+          {first100.map((sentence, index) => (
+            <div className="item" key={index}>
+              {index + 1}. {sentence}
+            </div>
+          ))}
+        </animated.div>
+      </div>
       <div className="actions">
         <div>Font size</div>
-        <button onClick={increaseFontSize}>+</button>
-        <button onClick={decreaseFontSize}>-</button>
-        <div>Speed</div>
-        <button onClick={increaseVelocity}>+</button>
-        <button onClick={decreaseVelocity}>-</button>
         <div>
-          <button disabled className="restartBtn" onClick={restart}>
-            Restart
-          </button>
+          <button onClick={increaseFontSize}>+</button>
+          <button onClick={decreaseFontSize}>-</button>
         </div>
+        <div>Speed</div>
+        <div>
+          <button onClick={increaseVelocity}>+</button>
+          <button onClick={decreaseVelocity}>-</button>
+        </div>
+        <button className="restartBtn" onClick={restart}>
+          Restart
+        </button>
       </div>
-      <animated.div
-        ref={ref}
-        style={{
-          fontSize,
-          margin: 0,
-          padding: 0,
-          display: "flex",
-          width: "fit-content",
-          borderRadius: 8,
-          ...springs,
-        }}
-      >
-        {first100.map((sentence, index) => (
-          <div className="item" key={index}>
-            {index + 1}. {sentence}
-          </div>
-        ))}
-      </animated.div>
-    </>
+    </div>
   );
 }
 
