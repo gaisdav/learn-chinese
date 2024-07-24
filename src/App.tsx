@@ -1,4 +1,3 @@
-import React from "react";
 import "./App.css";
 import { first100 } from "./sentences.ts";
 import { animated, useSpring } from "@react-spring/web";
