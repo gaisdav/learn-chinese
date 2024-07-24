@@ -1,3 +1,4 @@
+import React from "react";
 import "./App.css";
 import { first100 } from "./sentences.ts";
 import { animated, useSpring } from "@react-spring/web";
@@ -5,11 +6,15 @@ import { useEffect, useRef, useState } from "react";
 
 const windowWidth = window.innerWidth;
 const velocityCacheKey = "speed";
+const fontSizeCacheKey = "fontSize";
 const velocityCache: number =
   Number(localStorage.getItem(velocityCacheKey)) || 100000;
+const fontSizeCache: number =
+  Number(localStorage.getItem(fontSizeCacheKey)) || 16;
 
 function App() {
   const [velocity, setVelocity] = useState(velocityCache);
+  const [fontSize, setFontSize] = useState(fontSizeCache);
   const [toX, setToX] = useState(0);
 
   const ref = useRef<HTMLDivElement>(null);
@@ -41,11 +46,27 @@ function App() {
     localStorage.setItem(velocityCacheKey, newVelocity.toString());
   };
 
+  const increaseFontSize = () => {
+    const newFontSize = fontSize + 1;
+    setFontSize(newFontSize);
+    localStorage.setItem(fontSizeCacheKey, newFontSize.toString());
+  };
+
+  const decreaseFontSize = () => {
+    const newFontSize = fontSize - 1;
+    setFontSize(newFontSize);
+    localStorage.setItem(fontSizeCacheKey, newFontSize.toString());
+  };
+
   const restart = () => {};
 
   return (
     <>
       <div className="actions">
+        <div>Font size</div>
+        <button onClick={increaseFontSize}>+</button>
+        <button onClick={decreaseFontSize}>-</button>
+        <div>Speed</div>
         <button onClick={increaseVelocity}>+</button>
         <button onClick={decreaseVelocity}>-</button>
         <div>
@@ -57,6 +78,7 @@ function App() {
       <animated.div
         ref={ref}
         style={{
+          fontSize,
           margin: 0,
           padding: 0,
           display: "flex",
